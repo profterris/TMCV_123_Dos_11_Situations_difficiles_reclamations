@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exercices – Gérer les réclamations et les situations difficiles</title>
+<style>
+/* ── RESET & BASE ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #f5f6fa;
+  --surface:   #ffffff;
+  --card:      #ffffff;
+  --border:    #e1e4ec;
+  --border-hi: #c3c8d6;
+  --text:      #1f2433;
+  --text-dim:  #5e6578;
+  --accent:    #f2b705;
+  --green:     #1e8a4c;
+  --red:       #c53030;
+  --blue:      #2b6cb0;
+  --purple:    #6b46c1;
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --radius:    10px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ── HEADER ──────────────────────────────────────────────── */
+.site-header {
+  background: linear-gradient(135deg, #ffffff 0%, #eef1f8 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 48px 24px 36px;
+  text-align: center;
+}
+.site-header .kicker {
+  display: inline-block;
+  background: var(--accent);
+  color: #1f2433;
+  font-family: var(--font-head);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 3px 12px;
+  border-radius: 3px;
+  margin-bottom: 18px;
+}
+.site-header h1 {
+  font-family: var(--font-head);
+  font-size: clamp(22px, 5vw, 38px);
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.15;
+}
+.site-header .sub {
+  color: var(--text-dim);
+  font-size: 14px;
+  font-weight: 300;
+  max-width: 560px;
+  margin: 0 auto 24px;
+}
+
+/* ── NAV ANCRES ──────────────────────────────────────────── */
+.nav-anchors {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.nav-anchors a {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 16px;
+  text-decoration: none;
+  transition: border-color .15s, color .15s;
+}
+.nav-anchors a:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ── CONTENEUR PRINCIPAL ─────────────────────────────────── */
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+/* ── TITRE DE BLOC ───────────────────────────────────────── */
+.bloc-titre {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 52px 0 6px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.bloc-titre:first-child { margin-top: 0; }
+.bloc-titre .icone { font-size: 26px; flex-shrink: 0; }
+.bloc-titre h2 {
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+/* ── MÉMO FORMULE ────────────────────────────────────────── */
+.memo {
+  background: #eef8f1;
+  border: 1px solid #c9e7d4;
+  border-left: 4px solid var(--green);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+.memo .memo-titre {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+.memo code {
+  display: block;
+  background: #ffffff;
+  border: 1px solid #d6ecdd;
+  border-radius: 5px;
+  padding: 8px 14px;
+  color: #17603a;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  margin: 4px 0;
+}
+.memo .note { color: var(--text-dim); font-size: 12.5px; margin-top: 6px; }
+
+/* ── CARTE EXERCICE ──────────────────────────────────────── */
+.exo-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: border-color .15s;
+  box-shadow: 0 1px 2px rgba(20, 30, 60, .04);
+}
+.exo-card:hover { border-color: var(--border-hi); }
+
+.exo-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+.exo-header::-webkit-details-marker { display: none; }
+
+.exo-num {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  min-width: 40px;
+}
+.badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 9px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.badge-1 { background: #e8f6ed; color: var(--green); border: 1px solid #bfe3cc; }
+.badge-2 { background: #fdf5dc; color: #8a6400; border: 1px solid #f0d98a; }
+.badge-3 { background: #fdeaea; color: var(--red); border: 1px solid #f3c2c2; }
+.badge-exam { background: #f0ebfb; color: var(--purple); border: 1px solid #d6c8f3; }
+
+.exo-titre-txt { font-size: 14px; font-weight: 500; color: var(--text); flex: 1; }
+.chevron { color: var(--text-dim); font-size: 13px; flex-shrink: 0; transition: transform .2s; }
+details[open] .chevron { transform: rotate(180deg); }
+
+/* ── CORPS DE L'EXERCICE ─────────────────────────────────── */
+.exo-body { padding: 0 18px 20px; border-top: 1px solid var(--border); }
+
+.contexte {
+  background: #eef4fb;
+  border-left: 3px solid var(--blue);
+  border-radius: 0 6px 6px 0;
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 1.75;
+}
+.contexte strong { color: #102a4c; }
+
+.tableau-donnees { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+.tableau-donnees th {
+  background: #f0f2f7;
+  color: var(--text-dim);
+  font-family: var(--font-head);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.tableau-donnees td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+.tableau-donnees tr:last-child td { border-bottom: none; }
+.tableau-donnees td.num { font-weight: 600; color: #102a4c; }
+.tableau-donnees tr.total-row td {
+  background: #f0f2f7;
+  font-family: var(--font-head);
+  font-weight: 700;
+  color: #8a6400;
+}
+
+.questions { margin: 18px 0 0; }
+.question { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
+.question .q-num {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  background: var(--accent);
+  color: #1f2433;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 11px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+.question p { font-size: 14px; margin: 0; }
+
+/* ── ORDRE DE GRANDEUR ───────────────────────────────────── */
+.ordre-grandeur {
+  background: #fff8e1;
+  border: 1px solid #f3dc94;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  color: #6f5200;
+  margin: 12px 0 0;
+}
+.ordre-grandeur::before { content: "💡 "; }
+
+/* ── BOUTON CORRECTION ───────────────────────────────────── */
+.btn-corrige {
+  background: none;
+  border: 1px solid var(--border-hi);
+  border-radius: 6px;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  margin-top: 18px;
+  transition: all .15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-corrige:hover { border-color: var(--green); color: var(--green); }
+
+/* ── CORRECTION ──────────────────────────────────────────── */
+.correction {
+  display: none;
+  background: #eef8f1;
+  border: 1px solid #c9e7d4;
+  border-radius: 6px;
+  padding: 16px 18px;
+  margin-top: 14px;
+  font-size: 13.5px;
+  line-height: 1.8;
+}
+.correction.visible { display: block; }
+.correction .corr-etape { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #d6ecdd; }
+.correction .corr-etape:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.correction .c-num {
+  display: inline-block;
+  background: var(--green);
+  color: #ffffff;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 18px;
+  margin-right: 6px;
+}
+.correction code {
+  display: block;
+  background: #ffffff;
+  border: 1px solid #d6ecdd;
+  border-radius: 4px;
+  padding: 6px 12px;
+  color: #17603a;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  margin: 5px 0;
+}
+.correction .res { font-family: var(--font-head); font-weight: 700; color: var(--text); }
+.correction .conclu { margin-top: 8px; font-size: 13px; color: #2f6b47; font-style: italic; }
+.correction .tableau-corr { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 8px 0; }
+.correction .tableau-corr th {
+  background: #dcefe3;
+  color: #2f4a3a;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  text-align: left;
+}
+.correction .tableau-corr td { padding: 6px 10px; border-bottom: 1px solid #d6ecdd; color: #24382c; vertical-align: top; }
+.correction .tableau-corr td.val { font-weight: 700; color: var(--green); }
+.correction .tableau-corr tr.t-total td { background: #dcefe3; font-weight: 700; color: #8a6400; }
+
+/* ── SÉPARATEUR ──────────────────────────────────────────── */
+hr.section-sep { border: none; border-top: 1px solid var(--border); margin: 54px 0 0; }
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 20px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 520px) {
+  .exo-titre-txt { font-size: 13px; }
+  .contexte { font-size: 13px; }
+  .tableau-donnees { font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="kicker">📞 Exercices – Bac pro MCV – bloc 2</div>
+  <h1>Gérer les situations difficiles<br>face à un retour client ou une réclamation</h1>
+  <p class="sub">15 exercices progressifs – qualifier une réclamation, adapter son comportement, proposer une solution, gérer le conflit et le stress</p>
+  <nav class="nav-anchors">
+    <a href="#qualifier">🔎 Qualifier la réclamation (4 ex.)</a>
+    <a href="#solution">🤝 Comportement et solution (5 ex.)</a>
+    <a href="#conflit">🧘 Conflit et stress (4 ex.)</a>
+    <a href="#complet">🏁 Sujets complets (2 ex.)</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════════════════════════
+     BLOC 1 – QUALIFIER LA RÉCLAMATION
+══════════════════════════════════════════════════════════ -->
+<div class="bloc-titre" id="qualifier">
+  <span class="icone">🔎</span>
+  <h2>Bloc 1 – Qualifier la réclamation</h2>
+</div>
+
+<div class="memo">
+  <div class="memo-titre">🗂 mémo</div>
+  <code>Qualifier = identifier l'origine + le motif → décider&nbsp;: fondée ou non fondée</code>
+  <code>Origine liée au produit&nbsp;: produit défectueux, erreur de prix, rupture…</code>
+  <code>Origine liée au parcours client&nbsp;: commande, livraison, SAV, accueil du personnel…</code>
+  <code>Fondée = erreur de l'entreprise ou dysfonctionnement du produit → procédure engagée</code>
+  <code>Non fondée = mauvaise utilisation ou mauvaise foi du client → procédure impossible</code>
+  <p class="note">On décide toujours à partir des <strong>faits</strong> et des <strong>conditions de l'enseigne</strong> (délais, garanties, notice), jamais à partir du ton du client.</p>
+</div>
+
+<!-- EX 1 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 1</span>
+    <span class="badge badge-1">⬆ décollage</span>
+    <span class="exo-titre-txt">Identifier l'origine et le motif de six réclamations</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Vous êtes téléconseiller(ère) au service clients de <strong>Maison Électro</strong>, enseigne de produits électroménagers, son et informatique (magasins et site marchand). Ce matin, vous avez reçu les appels suivants.
+    </div>
+    <table class="tableau-donnees">
+      <tr><th>N°</th><th>Ce que dit le client</th></tr>
+      <tr><td class="num">1</td><td>«&nbsp;Mon aspirateur ne s'allume plus depuis hier, je l'ai acheté il y a deux mois.&nbsp;»</td></tr>
+      <tr><td class="num">2</td><td>«&nbsp;On m'avait promis une livraison du lave-vaisselle samedi, personne n'est venu.&nbsp;»</td></tr>
+      <tr><td class="num">3</td><td>«&nbsp;En rayon, le micro-ondes était affiché 89 €, on me l'a encaissé 109 €.&nbsp;»</td></tr>
+      <tr><td class="num">4</td><td>«&nbsp;J'ai attendu 20 minutes en magasin, aucun vendeur n'a voulu me renseigner.&nbsp;»</td></tr>
+      <tr><td class="num">5</td><td>«&nbsp;Mon ordinateur est au SAV depuis cinq semaines et je n'ai aucune nouvelle.&nbsp;»</td></tr>
+      <tr><td class="num">6</td><td>«&nbsp;J'ai commandé un casque noir sur votre site, j'ai reçu un casque blanc.&nbsp;»</td></tr>
+    </table>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Pour chaque appel, indiquez l'origine de la réclamation (liée au produit ou liée au parcours client).</p></div>
+      <div class="question"><span class="q-num">2</span><p>Précisez le motif de chaque réclamation en quelques mots.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Repère&nbsp;:</strong> demandez-vous si le problème vient de l'objet lui-même (ou de son prix) ou d'une étape du service rendu au client (commande, livraison, SAV, accueil).</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <table class="tableau-corr">
+          <tr><th>N°</th><th>Origine</th><th>Motif</th></tr>
+          <tr><td>1</td><td class="val">Produit</td><td>Produit en panne</td></tr>
+          <tr><td>2</td><td class="val">Parcours client</td><td>Livraison non honorée</td></tr>
+          <tr><td>3</td><td class="val">Produit</td><td>Erreur de prix</td></tr>
+          <tr><td>4</td><td class="val">Parcours client</td><td>Indisponibilité du personnel de vente</td></tr>
+          <tr><td>5</td><td class="val">Parcours client</td><td>Réparation SAV non réalisée / absence de suivi</td></tr>
+          <tr><td>6</td><td class="val">Parcours client</td><td>Erreur de commande (préparation)</td></tr>
+        </table>
+        <p class="conclu">L'appel 6 est lié au parcours client&nbsp;: le produit n'est pas défectueux, c'est la préparation de la commande qui est en cause.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 2 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 2</span>
+    <span class="badge badge-1">⬆ décollage</span>
+    <span class="exo-titre-txt">Réclamation fondée ou non fondée&nbsp;?</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Maison Électro applique les conditions suivantes&nbsp;:<br><br>
+      • <strong>Prix garanti&nbsp;:</strong> si le client trouve le même produit moins cher ailleurs dans les <strong>10 jours</strong> suivant l'achat, la différence est remboursée.<br>
+      • <strong>Modification de commande en ligne&nbsp;:</strong> possible dans les <strong>2 heures</strong> suivant la confirmation.<br>
+      • <strong>Notice des bouilloires Vapo&nbsp;:</strong> détartrage uniquement avec le produit détartrant de la marque&nbsp;; le vinaigre abîme la résistance et annule la garantie.<br><br>
+      Nous sommes le <strong>20 octobre</strong>. Quatre clients appellent&nbsp;:<br>
+      a) un client a acheté une imprimante le 14 octobre et l'a trouvée 20 € moins chère chez un concurrent ce matin&nbsp;;<br>
+      b) une cliente a passé une commande en ligne il y a 40 minutes et veut corriger son adresse de livraison&nbsp;;<br>
+      c) un client dont la bouilloire Vapo ne chauffe plus explique qu'il la détartre chaque mois au vinaigre blanc&nbsp;;<br>
+      d) une cliente a acheté une tablette le 2 octobre et demande le remboursement de la différence avec un prix concurrent vu hier.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Pour chaque situation, indiquez si la réclamation est fondée ou non fondée.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Justifiez chaque réponse à l'aide des conditions de l'enseigne.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Repère&nbsp;:</strong> comptez les jours entre la date d'achat et le 20 octobre&nbsp;; une seule situation dépasse le délai de 10 jours.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <table class="tableau-corr">
+          <tr><th>Cas</th><th>Décision</th><th>Justification</th></tr>
+          <tr><td>a</td><td class="val">Fondée</td><td>Du 14 au 20 octobre&nbsp;: 6 jours, délai de 10 jours respecté. La différence de 20 € est remboursée.</td></tr>
+          <tr><td>b</td><td class="val">Fondée</td><td>40 minutes &lt; 2 heures&nbsp;: la modification de l'adresse est possible. La cliente est de bonne foi.</td></tr>
+          <tr><td>c</td><td class="val">Non fondée</td><td>Mauvaise utilisation du produit&nbsp;: le vinaigre est interdit par la notice et annule la garantie.</td></tr>
+          <tr><td>d</td><td class="val">Non fondée</td><td>Du 2 au 20 octobre&nbsp;: 18 jours, le délai de 10 jours est dépassé.</td></tr>
+        </table>
+        <p class="conclu">Une réclamation non fondée n'est pas une réclamation à ignorer&nbsp;: il faut l'expliquer calmement au client en s'appuyant sur les conditions de l'enseigne.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 3 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 3</span>
+    <span class="badge badge-2">◆ intermédiaire</span>
+    <span class="exo-titre-txt">Qualifier des retours en magasin de prêt-à-porter</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Vous êtes vendeur(se) chez <strong>Mode &amp; Vous</strong>. Conditions de retour affichées en caisse&nbsp;:<br><br>
+      • article non porté, avec étiquettes et ticket&nbsp;: échange ou remboursement sous <strong>30 jours</strong>&nbsp;;<br>
+      • article soldé&nbsp;: retour accepté sous <strong>7 jours</strong> seulement&nbsp;;<br>
+      • article présentant un défaut, porté dans des conditions normales&nbsp;: retour accepté sous <strong>6 mois</strong>.<br><br>
+      Nous sommes le <strong>15 mars 2026</strong> (février 2026 compte 28 jours). Quatre clients se présentent&nbsp;:
+    </div>
+    <table class="tableau-donnees">
+      <tr><th>Client</th><th>Achat</th><th>Situation</th></tr>
+      <tr><td class="num">A</td><td>Robe – 2 février</td><td>La couture se défait après deux lavages réalisés selon l'étiquette.</td></tr>
+      <tr><td class="num">B</td><td>Pull – 20 février</td><td>Taille trop grande, jamais porté, étiquettes et ticket présents.</td></tr>
+      <tr><td class="num">C</td><td>Jean soldé – 5 mars</td><td>Il ne plaît plus à la cliente, étiquettes présentes.</td></tr>
+      <tr><td class="num">D</td><td>Veste – 1er mars</td><td>Portée, tachée, sans étiquette&nbsp;; la couleur ne convient pas au client.</td></tr>
+    </table>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Calculez, pour chaque client, le nombre de jours écoulés depuis l'achat.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Qualifiez chaque retour (motif, fondé ou non fondé) en justifiant.</p></div>
+      <div class="question"><span class="q-num">3</span><p>Rédigez la phrase de réponse que vous adressez au client C.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Ordre de grandeur&nbsp;:</strong> du 20 février au 15 mars, on compte un peu plus de trois semaines&nbsp;; du 5 au 15 mars, une dizaine de jours.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <code>A&nbsp;: 2 février → 15 mars = 26 (février) + 15 (mars) = 41 jours</code>
+        <code>B&nbsp;: 20 février → 15 mars = 8 + 15 = 23 jours</code>
+        <code>C&nbsp;: 5 mars → 15 mars = 10 jours</code>
+        <code>D&nbsp;: 1er mars → 15 mars = 14 jours</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <table class="tableau-corr">
+          <tr><th>Client</th><th>Motif</th><th>Décision et justification</th></tr>
+          <tr><td>A</td><td>Produit défectueux</td><td class="val">Fondée&nbsp;: défaut avec usage normal, 41 jours &lt; 6 mois.</td></tr>
+          <tr><td>B</td><td>Article qui ne convient pas (taille)</td><td class="val">Fondée&nbsp;: 23 jours &lt; 30 jours, article non porté avec étiquettes et ticket.</td></tr>
+          <tr><td>C</td><td>Article soldé qui ne convient pas</td><td class="val">Non fondée&nbsp;: 10 jours &gt; 7 jours autorisés pour les soldes.</td></tr>
+          <tr><td>D</td><td>Article qui ne convient pas (couleur)</td><td class="val">Non fondée&nbsp;: article porté, taché, sans étiquette.</td></tr>
+        </table>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <p class="res">«&nbsp;Je comprends votre déception, madame. Malheureusement, les articles soldés sont repris sous 7 jours et votre achat date du 5 mars, soit il y a 10 jours. Je ne peux donc pas accepter ce retour. Puis-je vous aider à trouver un autre article&nbsp;?&nbsp;»</p>
+        <p class="conclu">La réponse reconnaît le désagrément, explique la règle avec les faits (dates), puis relance positivement la relation.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 4 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 4</span>
+    <span class="badge badge-2">◆ intermédiaire</span>
+    <span class="exo-titre-txt">Vrai ou faux justifié sur le traitement des réclamations</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Votre tuteur(trice) de PFMP vous soumet les affirmations suivantes avant votre première journée au service réclamations.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>«&nbsp;Si la panne vient d'une mauvaise utilisation du produit, la réclamation est fondée.&nbsp;»</p></div>
+      <div class="question"><span class="q-num">2</span><p>«&nbsp;Une réponse orale suffit, il est inutile de confirmer la solution par écrit.&nbsp;»</p></div>
+      <div class="question"><span class="q-num">3</span><p>«&nbsp;Recevoir une réclamation implique d'identifier son origine et son motif, de connaître la procédure et l'offre après-vente, puis de créer un formulaire de traitement.&nbsp;»</p></div>
+      <div class="question"><span class="q-num">4</span><p>«&nbsp;L'écoute active et l'empathie ne servent que dans les situations conflictuelles.&nbsp;»</p></div>
+      <div class="question"><span class="q-num">5</span><p>«&nbsp;Le stress a toujours un effet négatif sur le travail.&nbsp;»</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Repère&nbsp;:</strong> une seule affirmation est vraie. Lisez chaque mot («&nbsp;toujours&nbsp;», «&nbsp;ne… que&nbsp;», «&nbsp;inutile&nbsp;»).</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape"><span class="c-num">1</span><span class="res">Faux.</span> La mauvaise utilisation rend la réclamation non fondée&nbsp;: la procédure de traitement ne peut pas être engagée.</div>
+      <div class="corr-etape"><span class="c-num">2</span><span class="res">Faux.</span> La solution et sa mise en œuvre doivent être communiquées par écrit (mail, courrier)&nbsp;: cela engage l'entreprise et sert de trace.</div>
+      <div class="corr-etape"><span class="c-num">3</span><span class="res">Vrai.</span> Ce sont les quatre étapes de la réception d'une réclamation&nbsp;; le formulaire facilite le suivi et la mise à jour du dossier.</div>
+      <div class="corr-etape"><span class="c-num">4</span><span class="res">Faux.</span> Elles s'appliquent à toutes les relations avec les clients, conflictuelles ou non.</div>
+      <div class="corr-etape"><span class="c-num">5</span><span class="res">Faux.</span> Le stress positif est une source de motivation et de stimulation&nbsp;; seul le stress négatif a des effets néfastes.</div>
+      <p class="conclu">Score&nbsp;: 1 vraie, 4 fausses. Les mots absolus («&nbsp;toujours&nbsp;», «&nbsp;ne… que&nbsp;») signalent souvent une affirmation fausse.</p>
+    </div>
+  </div>
+</details>
+
+<hr class="section-sep">
+
+<!-- ══════════════════════════════════════════════════════════
+     BLOC 2 – COMPORTEMENT ET SOLUTION
+══════════════════════════════════════════════════════════ -->
+<div class="bloc-titre" id="solution">
+  <span class="icone">🤝</span>
+  <h2>Bloc 2 – Adapter son comportement et apporter une solution</h2>
+</div>
+
+<div class="memo">
+  <div class="memo-titre">🗂 mémo</div>
+  <code>Sincère → reconnaître le désagrément, expliquer la solution</code>
+  <code>Sentimental → proposer une solution qui tient compte de sa fidélité</code>
+  <code>Opportuniste → expliquer la politique de l'enseigne, solution à hauteur du préjudice</code>
+  <code>Râleur / agressif → rester calme et poli</code>
+  <code>Silencieux → questionner</code>
+  <code>Solutions&nbsp;: dédommager · rembourser · échanger · remonter l'information en interne</code>
+  <code>Dédommagement au prorata = prix mensuel × jours sans service ÷ jours du mois</code>
+  <p class="note">La solution respecte la procédure de l'enseigne, est confirmée <strong>par écrit</strong> et enregistrée dans le <strong>formulaire de traitement</strong> (logiciel de GRC).</p>
+</div>
+
+<!-- EX 5 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 5</span>
+    <span class="badge badge-1">⬆ décollage</span>
+    <span class="exo-titre-txt">Identifier le type de client et l'attitude à adopter</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Au service clients de Maison Électro, vous recevez ces messages&nbsp;:<br><br>
+      <strong>1.</strong> «&nbsp;Je suis client chez vous depuis quinze ans, j'ai équipé toute ma cuisine chez Maison Électro… et mon four est livré avec la vitre fêlée. Je suis vraiment déçu.&nbsp;»<br>
+      <strong>2.</strong> «&nbsp;C'est incroyable&nbsp;! Trois heures que j'attends votre technicien, vous vous moquez du monde&nbsp;!&nbsp;»<br>
+      <strong>3.</strong> «&nbsp;Bonjour. Le code promo de la newsletter n'a pas fonctionné sur votre site. Pouvez-vous m'aider à finaliser ma commande&nbsp;?&nbsp;»<br>
+      <strong>4.</strong> «&nbsp;Bonjour… Je vous appelle à cause de mon dernier passage en magasin… Enfin, ça ne s'est pas très bien passé.&nbsp;»<br>
+      <strong>5.</strong> «&nbsp;Ma machine à café a trois ans, la marque arrête les dosettes. J'exige que vous me donniez le dernier modèle gratuitement&nbsp;!&nbsp;»
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Identifiez le type de client pour chaque message.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Indiquez l'attitude à privilégier face à chacun.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Repère&nbsp;:</strong> cinq messages, cinq types de clients différents.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <table class="tableau-corr">
+          <tr><th>N°</th><th>Type</th><th>Attitude à privilégier</th></tr>
+          <tr><td>1</td><td class="val">Sentimental</td><td>Montrer de l'intérêt, prendre en compte sa fidélité dans la solution proposée.</td></tr>
+          <tr><td>2</td><td class="val">Râleur / agressif</td><td>Rester calme et poli, laisser parler, ne pas hausser le ton.</td></tr>
+          <tr><td>3</td><td class="val">Sincère</td><td>Reconnaître le désagrément et expliquer la solution.</td></tr>
+          <tr><td>4</td><td class="val">Silencieux</td><td>Questionner (questions ouvertes) pour faire préciser le problème.</td></tr>
+          <tr><td>5</td><td class="val">Opportuniste</td><td>Expliquer la situation et la politique de l'enseigne et de la marque&nbsp;; proposer une solution à hauteur du préjudice réel.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 6 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 6</span>
+    <span class="badge badge-2">◆ intermédiaire</span>
+    <span class="exo-titre-txt">Choisir la solution adaptée à chaque réclamation</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Reprenez les cinq messages de l'exercice 5. La politique de Maison Électro prévoit&nbsp;:<br><br>
+      • produit livré endommagé et constaté à la livraison&nbsp;: <strong>échange</strong>&nbsp;;<br>
+      • retard d'intervention ou de livraison de plus de 2 heures&nbsp;: <strong>dédommagement</strong> (bon d'achat)&nbsp;;<br>
+      • dysfonctionnement du site marchand ou plainte sur l'accueil&nbsp;: <strong>remontée de l'information en interne</strong> (service web ou directeur de magasin)&nbsp;;<br>
+      • arrêt de fabrication des consommables par la marque&nbsp;: la marque propose une <strong>offre de remboursement partiel</strong> de l'appareil, accessible par un lien envoyé par mail.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Choisissez, pour chaque message, la solution à proposer&nbsp;: dédommager, rembourser, échanger ou remonter l'information en interne.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Expliquez pourquoi le client n° 5 ne peut pas obtenir le dernier modèle gratuitement.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Repère&nbsp;:</strong> chaque solution du mémo est utilisée au moins une fois.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <table class="tableau-corr">
+          <tr><th>N°</th><th>Solution</th><th>Justification</th></tr>
+          <tr><td>1</td><td class="val">Échanger</td><td>Four livré endommagé&nbsp;: on remplace le produit (et on peut valoriser la fidélité, par exemple une livraison prioritaire).</td></tr>
+          <tr><td>2</td><td class="val">Dédommager</td><td>Retard de 3 h &gt; 2 h&nbsp;: bon d'achat prévu par la procédure.</td></tr>
+          <tr><td>3</td><td class="val">Remonter l'information</td><td>Dysfonctionnement du site&nbsp;: le service web doit corriger le code promo.</td></tr>
+          <tr><td>4</td><td class="val">Remonter l'information</td><td>Plainte sur l'accueil&nbsp;: information transmise au directeur du magasin (après questionnement).</td></tr>
+          <tr><td>5</td><td class="val">Rembourser</td><td>Offre de remboursement partiel de la marque, lien envoyé par mail.</td></tr>
+        </table>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <p>L'appareil fonctionne et a été acheté il y a trois ans&nbsp;: l'arrêt des dosettes est une décision de la marque, pas une erreur de l'enseigne. La solution doit être <strong>à hauteur du préjudice subi</strong>&nbsp;: la marque prévoit un remboursement partiel, pas un appareil neuf gratuit.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 7 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 7</span>
+    <span class="badge badge-2">◆ intermédiaire</span>
+    <span class="exo-titre-txt">Calculer un dédommagement au prorata</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Vous êtes téléconseiller(ère) chez <strong>Netzéro</strong>, fournisseur d'accès à Internet. En cas de coupure du service imputable à l'opérateur, le client est dédommagé <strong>au prorata des jours sans service</strong>, montant déduit de la facture suivante (arrondi au centime).<br><br>
+      • <strong>M. Lambert</strong>&nbsp;: abonnement de <strong>35,99 €</strong> par mois, sans connexion du 8 au 19 avril inclus (avril compte 30 jours).<br>
+      • <strong>Mme Okafor</strong>&nbsp;: abonnement de <strong>29,99 €</strong> par mois, sans connexion pendant 7 jours en février 2026 (28 jours).
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Calculez le nombre de jours sans service de M. Lambert.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Calculez le dédommagement de chacun des deux clients.</p></div>
+      <div class="question"><span class="q-num">3</span><p>Rédigez la phrase du mail qui présente le dédommagement à M. Lambert.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Ordre de grandeur&nbsp;:</strong> 12 jours sur 30, c'est 40 % du mois → un peu moins de 15 €. 7 jours sur 28, c'est un quart du mois → environ 7,50 €.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <code>Du 8 au 19 avril inclus&nbsp;: 19 − 8 + 1 = 12 jours</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <code>M. Lambert&nbsp;: 35,99 × 12 ÷ 30 = 14,396 → 14,40 €</code>
+        <code>Mme Okafor&nbsp;: 29,99 × 7 ÷ 28 = 7,4975 → 7,50 €</code>
+        <p class="res">Dédommagements&nbsp;: <strong>14,40 €</strong> et <strong>7,50 €</strong></p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <p class="res">«&nbsp;En dédommagement, nous vous accordons la somme de 14,40 €, calculée sur votre abonnement mensuel de 35,99 € pour les 12 jours sans connexion. Elle sera déduite de votre prochaine facture.&nbsp;»</p>
+        <p class="conclu">Le client doit comprendre le calcul&nbsp;: on indique le prix de l'abonnement, le nombre de jours et la modalité (déduction sur facture).</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 8 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 8</span>
+    <span class="badge badge-2">◆ intermédiaire</span>
+    <span class="exo-titre-txt">Reformuler des réponses maladroites</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Un téléconseiller débutant a répondu ainsi à des clients mécontents. Votre responsable vous demande de l'aider à améliorer ses formulations.<br><br>
+      <strong>1.</strong> «&nbsp;Vous avez dû mal brancher votre box, c'est souvent le cas.&nbsp;»<br>
+      <strong>2.</strong> «&nbsp;Fallait lire la notice avant d'acheter ce téléphone.&nbsp;»<br>
+      <strong>3.</strong> «&nbsp;Bon, calmez-vous, j'y suis pour rien moi&nbsp;!&nbsp;»<br>
+      <strong>4.</strong> «&nbsp;Ouais, c'est la galère avec le chipset de votre PC, ça sent pas bon.&nbsp;»<br>
+      <strong>5.</strong> «&nbsp;Bonjour madame, je comprends votre inquiétude. Pouvez-vous m'indiquer votre numéro de client afin que j'accède à votre dossier&nbsp;?&nbsp;»
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Indiquez si chaque formulation est correcte ou non et justifiez.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Proposez une formulation professionnelle pour chaque réponse incorrecte.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Repère&nbsp;:</strong> une seule formulation est correcte. Cherchez la culpabilisation du client, le langage familier, le jargon technique et la perte de sang-froid.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <table class="tableau-corr">
+        <tr><th>N°</th><th>Correcte&nbsp;?</th><th>Justification</th><th>Formulation professionnelle</th></tr>
+        <tr><td>1</td><td class="val">Non</td><td>Rend le client responsable sans vérifier.</td><td>«&nbsp;Je vais vérifier avec vous l'installation de votre box. Quels voyants sont allumés&nbsp;?&nbsp;»</td></tr>
+        <tr><td>2</td><td class="val">Non</td><td>Culpabilise le client, langage familier.</td><td>«&nbsp;Soyez rassuré, je vais vous aider. Quel est le modèle de votre téléphone et quelle fonction pose problème&nbsp;?&nbsp;»</td></tr>
+        <tr><td>3</td><td class="val">Non</td><td>Perte de sang-froid, refus de prise en charge.</td><td>«&nbsp;Je comprends votre mécontentement et je vous présente nos excuses. Je suis à votre écoute&nbsp;: que puis-je faire pour vous&nbsp;?&nbsp;»</td></tr>
+        <tr><td>4</td><td class="val">Non</td><td>Expressions familières et terme technique non compris, inquiète le client.</td><td>«&nbsp;Le composant principal de votre ordinateur est endommagé. Je vous propose la solution suivante…&nbsp;»</td></tr>
+        <tr><td>5</td><td class="val">Oui</td><td>Courtoisie, empathie, question pour accéder au dossier.</td><td>–</td></tr>
+      </table>
+    </div>
+  </div>
+</details>
+
+<!-- EX 9 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 9</span>
+    <span class="badge badge-3">▲ niveau examen</span>
+    <span class="exo-titre-txt">Rédiger le mail de réponse et compléter le formulaire de traitement</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Le <strong>4 décembre</strong>, M. <strong>Karim Benali</strong> (12 rue des Lilas, 21000 Dijon – 06 45 87 21 30 – k.benali@mail.fr) envoie un mail au service clients de Maison Électro&nbsp;: son <strong>réfrigérateur Liebherr CN 4313</strong>, acheté le 15 juin, est au SAV depuis le 10 novembre et il n'a aucune nouvelle.<br><br>
+      <strong>Dossier de suivi de réparation&nbsp;:</strong> la pièce défaillante (compresseur) est en rupture chez le fabricant&nbsp;; livraison prévue le <strong>18 décembre</strong>.<br>
+      <strong>Offre après-vente&nbsp;:</strong> prêt d'un appareil de remplacement pendant toute l'immobilisation&nbsp;; le client contacte le magasin le plus proche pour fixer la date de livraison du prêt.<br>
+      <strong>Service clients&nbsp;:</strong> 03 80 00 12 34. Référence de la réclamation&nbsp;: R1204.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Qualifiez la réclamation (origine, motif, fondée ou non).</p></div>
+      <div class="question"><span class="q-num">2</span><p>Rédigez le mail de réponse à M. Benali.</p></div>
+      <div class="question"><span class="q-num">3</span><p>Complétez le formulaire de traitement&nbsp;: mode de réclamation, objet, action client retenue (explication, réparation, prêt, échange, avoir, geste commercial), résumé de la réponse.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Repère&nbsp;:</strong> un mail de réponse suit toujours l'ordre excuses → explication des faits → solution → modalités → formule de politesse.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <p>Origine&nbsp;: <strong>parcours client (SAV)</strong>. Motif&nbsp;: <strong>retard de réparation et absence d'information</strong>. Réclamation <strong>fondée</strong>&nbsp;: dysfonctionnement de l'entreprise (client non informé depuis plus de trois semaines).</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <p style="font-style:italic;color:#24382c;font-size:13px;line-height:1.9;border:1px solid #c9e7d4;background:#fff;padding:14px;border-radius:5px;">
+          <strong>À&nbsp;:</strong> k.benali@mail.fr<br>
+          <strong>Objet&nbsp;:</strong> re&nbsp;: réparation de votre réfrigérateur – réf. R1204<br><br>
+          Bonjour M. Benali,<br><br>
+          Votre mail du 4 décembre concernant la réparation de votre réfrigérateur Liebherr CN 4313 a retenu toute notre attention. Nous vous présentons nos excuses pour ce délai et pour l'absence d'information.<br><br>
+          Votre dossier indique que la pièce défaillante, le compresseur, est en rupture de stock chez le fabricant. Sa livraison est prévue le 18 décembre.<br><br>
+          Conformément à nos conditions après-vente, nous vous proposons le prêt d'un réfrigérateur pendant toute la durée de la réparation. Il vous suffit de contacter le magasin Maison Électro le plus proche de votre domicile pour fixer la date de livraison.<br><br>
+          Le service clients reste à votre disposition au 03 80 00 12 34.<br><br>
+          Bien cordialement,<br>
+          [Prénom Nom], téléconseiller(ère) – service clients Maison Électro
+        </p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <table class="tableau-corr">
+          <tr><th>Rubrique</th><th>Contenu</th></tr>
+          <tr><td>Date / référence</td><td>04/12 – R1204</td></tr>
+          <tr><td>Mode de réclamation</td><td class="val">Mail</td></tr>
+          <tr><td>Client</td><td>BENALI Karim – 12 rue des Lilas, 21000 Dijon – 06 45 87 21 30 – k.benali@mail.fr</td></tr>
+          <tr><td>Objet</td><td>Réfrigérateur Liebherr CN 4313, acheté le 15/06 – retard de réparation</td></tr>
+          <tr><td>Action client</td><td class="val">Explication + prêt</td></tr>
+          <tr><td>Réponse</td><td>Mail expliquant le retard (rupture du compresseur, livraison le 18/12) et les modalités du prêt.</td></tr>
+          <tr><td>Clôture</td><td>04/12</td></tr>
+        </table>
+        <p class="conclu">Le formulaire, enregistré dans le logiciel de GRC, permet à tous les services de suivre le dossier.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<hr class="section-sep">
+
+<!-- ══════════════════════════════════════════════════════════
+     BLOC 3 – CONFLIT ET STRESS
+══════════════════════════════════════════════════════════ -->
+<div class="bloc-titre" id="conflit">
+  <span class="icone">🧘</span>
+  <h2>Bloc 3 – Gérer une situation conflictuelle et gérer son stress</h2>
+</div>
+
+<div class="memo">
+  <div class="memo-titre">🗂 mémo</div>
+  <code>Procédure&nbsp;: accueil → analyse (identifier, reformuler) → traitement (excuses, solution) → conclusion</code>
+  <code>Communication verbale&nbsp;: langage courant, pas de familiarité, pas de jargon</code>
+  <code>Communication non verbale&nbsp;: calme, voix posée, pas de soupir</code>
+  <code>Stress positif = stimulation · stress négatif = effets néfastes (santé, travail, vie privée)</code>
+  <code>Symptômes&nbsp;: physiques · psychiques · comportementaux</code>
+  <code>Remédier&nbsp;: identifier les causes → proposer des solutions</code>
+  <p class="note">Face au conflit, on se concentre sur les <strong>faits</strong>, pas sur les émotions négatives du client&nbsp;: écoute active, empathie, questionnement, reformulation.</p>
+</div>
+
+<!-- EX 10 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 10</span>
+    <span class="badge badge-1">⬆ décollage</span>
+    <span class="exo-titre-txt">Classer les signes et les solutions du stress</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Inès, conseillère au service réclamations depuis un mois, présente les signes suivants&nbsp;:<br>
+      maux de tête – difficulté à se concentrer – grignotage entre les repas – fatigue permanente – perte de confiance en soi – isolement à la pause – consommation de 6 cafés par jour – troubles du sommeil – s'énerve pour un rien.<br><br>
+      Avant un entretien annuel, son collègue Hugo dit au contraire se sentir «&nbsp;boosté&nbsp;» et mieux préparé.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Classez les signes d'Inès en symptômes physiques, psychiques et comportementaux.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Quel type de stress vivent Inès et Hugo&nbsp;? Justifiez.</p></div>
+      <div class="question"><span class="q-num">3</span><p>Citez deux conséquences possibles du stress d'Inès pour l'entreprise.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Repère&nbsp;:</strong> «&nbsp;physique&nbsp;» = le corps&nbsp;; «&nbsp;psychique&nbsp;» = la pensée et les émotions&nbsp;; «&nbsp;comportemental&nbsp;» = ce que la personne fait.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <table class="tableau-corr">
+          <tr><th>Physiques</th><th>Psychiques</th><th>Comportementaux</th></tr>
+          <tr><td>Maux de tête, fatigue permanente, troubles du sommeil</td><td>Difficulté à se concentrer, perte de confiance en soi, s'énerve pour un rien</td><td>Grignotage, isolement, consommation excessive de café</td></tr>
+        </table>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <p>Inès&nbsp;: <strong>stress négatif</strong>, il nuit à sa santé et à son travail. Hugo&nbsp;: <strong>stress positif</strong>, il le stimule et le motive.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <p>Absentéisme (arrêts de travail), désorganisation du service, retard dans le traitement des dossiers, baisse de la qualité de la relation client.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 11 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 11</span>
+    <span class="badge badge-2">◆ intermédiaire</span>
+    <span class="exo-titre-txt">Analyser un appel conflictuel</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Voici la retranscription d'un appel traité par Lucas, téléconseiller chez Maison Électro.<br><br>
+      <strong>Lucas&nbsp;:</strong> «&nbsp;Maison Électro, service réclamations, Lucas à votre écoute.&nbsp;»<br>
+      <strong>Client&nbsp;:</strong> «&nbsp;C'est la troisième fois que j'appelle&nbsp;! Mon lave-linge à 649 € fuit depuis dix jours, personne ne me rappelle&nbsp;!&nbsp;»<br>
+      <strong>Lucas&nbsp;:</strong> «&nbsp;Euh… vous pouvez me réexpliquer le problème depuis le début&nbsp;?&nbsp;»<br>
+      <strong>Client&nbsp;:</strong> «&nbsp;Vous plaisantez&nbsp;? Tout est dans mon dossier&nbsp;!&nbsp;»<br>
+      <strong>Lucas</strong> (en soufflant)&nbsp;: «&nbsp;Ok, ok… Ah oui, je vois, c'est le joint de la pompe de vidange, c'est pas top. Un technicien passera jeudi entre 8 h et 12 h, la réparation est gratuite. Ça vous va&nbsp;?&nbsp;»<br>
+      <strong>Client&nbsp;:</strong> «&nbsp;Jeudi, d'accord.&nbsp;»<br>
+      <strong>Lucas&nbsp;:</strong> «&nbsp;Bon, ben voilà. Salut.&nbsp;»
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Quel est l'état d'esprit du client&nbsp;? La réclamation est-elle fondée&nbsp;?</p></div>
+      <div class="question"><span class="q-num">2</span><p>Relevez les points positifs et négatifs de Lucas pour chaque étape&nbsp;: accueil, analyse, traitement, conclusion.</p></div>
+      <div class="question"><span class="q-num">3</span><p>Relevez les erreurs de communication verbale et non verbale.</p></div>
+      <div class="question"><span class="q-num">4</span><p>Réécrivez la réplique d'analyse et la prise de congé.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Repère&nbsp;:</strong> l'accueil et la solution sont bons&nbsp;; l'analyse, la communication et la conclusion posent problème.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <p>Client <strong>agressif / râleur</strong>, excédé par trois appels sans réponse. Réclamation <strong>fondée</strong>&nbsp;: produit défectueux et absence de suivi par le service.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <table class="tableau-corr">
+          <tr><th>Étape</th><th>Points positifs</th><th>Points négatifs</th></tr>
+          <tr><td>Accueil</td><td>Salue, présente le service et se présente.</td><td>–</td></tr>
+          <tr><td>Analyse</td><td>Consulte finalement le dossier.</td><td>Fait répéter le client au lieu de l'identifier et de reformuler&nbsp;: agacement renforcé.</td></tr>
+          <tr><td>Traitement</td><td>Solution claire (date, créneau, gratuité).</td><td>Aucune excuse, terme technique.</td></tr>
+          <tr><td>Conclusion</td><td>Vérifie l'accord du client.</td><td>Prise de congé familière et non personnalisée&nbsp;; pas de mise à jour annoncée du suivi.</td></tr>
+        </table>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <p>Verbale&nbsp;: «&nbsp;euh&nbsp;», «&nbsp;ok, ok&nbsp;», «&nbsp;c'est pas top&nbsp;», «&nbsp;bon, ben voilà&nbsp;», «&nbsp;salut&nbsp;», terme technique «&nbsp;joint de la pompe de vidange&nbsp;». Non verbale&nbsp;: il <strong>souffle</strong>.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">4</span>
+        <code>«&nbsp;Je comprends votre agacement, monsieur, et je vous présente nos excuses. Pouvez-vous m'indiquer votre numéro de client&nbsp;? Je consulte votre dossier&nbsp;: votre lave-linge fuit depuis dix jours, c'est bien cela&nbsp;?&nbsp;»</code>
+        <code>«&nbsp;Je vous confirme le passage du technicien jeudi entre 8 h et 12 h, je l'enregistre dans votre dossier. Merci de votre patience, M. …, et très bonne journée.&nbsp;»</code>
+        <p class="conclu">La solution est bonne (le produit sera réparé gratuitement), mais une communication maladroite peut faire perdre un client malgré tout.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 12 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 12</span>
+    <span class="badge badge-2">◆ intermédiaire</span>
+    <span class="exo-titre-txt">Identifier les causes du stress d'une commerciale itinérante</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Sarah est commerciale pour <strong>Bonbon d'Or</strong> (confiserie) auprès des supermarchés de son secteur. Elle se dit épuisée. Extrait de sa semaine&nbsp;:
+    </div>
+    <table class="tableau-donnees">
+      <tr><th>Jour</th><th>Programme</th></tr>
+      <tr><td class="num">Lundi</td><td>8 h&nbsp;: passage au bureau pour récupérer les présentoirs et échantillons – 10 h&nbsp;: Beaune – 14 h&nbsp;: Chalon – 16 h 30&nbsp;: retour à Beaune pour un 2<sup>e</sup> magasin</td></tr>
+      <tr><td class="num">Mardi</td><td>8 h&nbsp;: bureau (matériel) – 10 h&nbsp;: Chalon – 12 h&nbsp;: sandwich dans la voiture – 14 h&nbsp;: Beaune</td></tr>
+      <tr><td class="num">Chaque jour</td><td>16 h 30&nbsp;: elle quitte un rendez-vous pour aller chercher sa fille à l'école, puis repart chez un client.</td></tr>
+    </table>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Identifiez la raison principale du stress de Sarah.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Listez les causes liées à sa vie professionnelle et à sa vie privée, et proposez une solution pour chacune.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Repère&nbsp;:</strong> regardez les villes visitées lundi et mardi&nbsp;: Sarah fait plusieurs allers-retours inutiles.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <p class="res">Une mauvaise organisation de sa tournée&nbsp;: les visites d'une même ville ne sont pas regroupées, ce qui multiplie les kilomètres et la perte de temps.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <table class="tableau-corr">
+          <tr><th></th><th>Causes</th><th>Solutions</th></tr>
+          <tr><td>Vie professionnelle</td><td>Passage au bureau chaque matin pour le matériel</td><td>Récupérer le matériel la veille</td></tr>
+          <tr><td></td><td>Visites d'une même ville réparties sur plusieurs jours et allers-retours</td><td>Regrouper les visites par ville dans la même journée</td></tr>
+          <tr><td></td><td>Repas rapide dans la voiture</td><td>Prendre une vraie pause avec un repas équilibré</td></tr>
+          <tr><td>Vie privée</td><td>Allers-retours entre l'école et les clients</td><td>Confier la sortie d'école à une autre personne (nourrice, proche) ou placer les rendez-vous de fin de journée près de l'école</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 13 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 13</span>
+    <span class="badge badge-3">▲ niveau examen</span>
+    <span class="exo-titre-txt">Le logiciel de GRC et les enjeux de la gestion des réclamations</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Maison Électro vient d'équiper son centre de contacts d'un <strong>logiciel de GRC</strong>. Sur un seul écran, le téléconseiller voit les coordonnées du client, l'historique de ses achats et de ses demandes. Chaque réclamation crée un <strong>ticket SAV</strong> partagé en temps réel avec les vendeurs, les livreurs et les réparateurs. Le logiciel propose des modèles de mails à personnaliser.<br><br>
+      Chaque client en réclamation a un <strong>interlocuteur unique</strong> dont il connaît le nom et les coordonnées. Chaque mois, des statistiques des réclamations sont envoyées aux directeurs de magasin, qui mettent en place des actions correctives. L'enseigne recherche pour ce poste des personnes mûres, attentives aux autres et capables de prendre du recul.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Expliquez comment le logiciel de GRC permet des gains de productivité.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Expliquez pourquoi il rend la transmission de l'information plus efficace.</p></div>
+      <div class="question"><span class="q-num">3</span><p>Comment l'enseigne crée-t-elle une relation de proximité avec le client&nbsp;?</p></div>
+      <div class="question"><span class="q-num">4</span><p>Présentez les trois enjeux de la gestion des réclamations pour l'enseigne.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Repère&nbsp;:</strong> les trois enjeux concernent le client, l'offre de l'entreprise et la relation dans la durée.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape"><span class="c-num">1</span>Toutes les données utiles sont sur un seul écran&nbsp;: la demande est comprise plus vite, le temps de traitement diminue et les modèles de mails accélèrent les réponses. Le téléconseiller traite <strong>plus de dossiers dans le même temps</strong>.</div>
+      <div class="corr-etape"><span class="c-num">2</span>Le ticket SAV regroupe toutes les informations (réception, client, objet, réponse) et il est accessible en temps réel par tous les acteurs concernés&nbsp;: pas de ressaisie, pas de perte d'information.</div>
+      <div class="corr-etape"><span class="c-num">3</span>Un <strong>interlocuteur unique</strong>, identifié par son nom et ses coordonnées, suit le dossier du début à la fin.</div>
+      <div class="corr-etape">
+        <span class="c-num">4</span>
+        <p>• <strong>Satisfaction client</strong>&nbsp;: procédure suivie et dossier tracé.<br>
+        • <strong>Amélioration des produits et services</strong>&nbsp;: les statistiques permettent aux directeurs de corriger les dysfonctionnements.<br>
+        • <strong>Fidélisation et image</strong>&nbsp;: un client bien traité reste fidèle et évite les avis négatifs (bouche-à-oreille, réseaux sociaux).</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<hr class="section-sep">
+
+<!-- ══════════════════════════════════════════════════════════
+     BLOC 4 – SUJETS COMPLETS
+══════════════════════════════════════════════════════════ -->
+<div class="bloc-titre" id="complet">
+  <span class="icone">🏁</span>
+  <h2>Bloc 4 – Sujets complets</h2>
+</div>
+
+<div class="memo">
+  <div class="memo-titre">🗂 méthode</div>
+  <code>1. Qualifier (origine, motif, fondée&nbsp;?) → 2. type de client et attitude → 3. solution conforme à la procédure</code>
+  <code>4. Calculer si besoin (dédommagement, délais, pourcentages) → 5. réponse écrite + formulaire</code>
+  <code>Taux (%) = partie ÷ total × 100 · Évolution (%) = (nouvelle valeur − ancienne) ÷ ancienne × 100</code>
+  <p class="note">Justifiez toujours vos choix à partir des documents fournis.</p>
+</div>
+
+<!-- EX 14 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 14</span>
+    <span class="badge badge-exam">★ sujet complet</span>
+    <span class="exo-titre-txt">Une matinée au service réclamations d'Électro Plus</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Vous êtes en PFMP au service clients d'<strong>Électro Plus</strong> (grande surface spécialisée et site marchand). Extrait de la procédure&nbsp;:<br><br>
+      • retard de livraison de plus de 2 heures imputable à l'enseigne&nbsp;: <strong>geste commercial de 5 % du prix TTC</strong> de l'article, sous forme de bon d'achat&nbsp;;<br>
+      • produit en panne sous garantie (2 ans), usage normal&nbsp;: réparation&nbsp;; si la réparation dépasse 15 jours, <strong>prêt</strong> d'un appareil&nbsp;;<br>
+      • garantie annulée en cas de mauvaise utilisation constatée par le technicien.<br><br>
+      <strong>Appel 1</strong> – Mme Roux&nbsp;: «&nbsp;Votre livreur devait passer entre 8 h et 10 h avec mon congélateur à 799 €. Il est arrivé à 12 h 30&nbsp;! J'ai dû annuler un rendez-vous&nbsp;!&nbsp;»<br>
+      <strong>Appel 2</strong> – M. Petit, client depuis 12 ans&nbsp;: «&nbsp;Mon téléviseur acheté il y a 14 mois ne s'allume plus. On m'annonce 3 semaines de réparation, je suis vraiment déçu.&nbsp;»<br>
+      <strong>Appel 3</strong> – M. Garnier&nbsp;: «&nbsp;Mon robot pâtissier est en panne.&nbsp;» Le rapport du technicien indique que l'appareil a été utilisé pour broyer de la glace, usage interdit par la notice.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Qualifiez chacune des trois réclamations (origine, motif, fondée ou non).</p></div>
+      <div class="question"><span class="q-num">2</span><p>Identifiez le type de client des appels 1 et 2 et l'attitude à adopter.</p></div>
+      <div class="question"><span class="q-num">3</span><p>Calculez le retard de livraison de Mme Roux et le montant du geste commercial.</p></div>
+      <div class="question"><span class="q-num">4</span><p>Indiquez la solution à proposer à M. Petit et à M. Garnier.</p></div>
+      <div class="question"><span class="q-num">5</span><p>Rédigez le mail de réponse à Mme Roux.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Ordre de grandeur&nbsp;:</strong> 5 % de 800 € = 40 €. Le retard se compte à partir de la fin du créneau annoncé.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <table class="tableau-corr">
+          <tr><th>Appel</th><th>Origine / motif</th><th>Décision</th></tr>
+          <tr><td>1</td><td>Parcours client / retard de livraison</td><td class="val">Fondée&nbsp;: créneau non respecté par l'enseigne.</td></tr>
+          <tr><td>2</td><td>Produit / produit en panne</td><td class="val">Fondée&nbsp;: 14 mois &lt; 2 ans de garantie, usage normal.</td></tr>
+          <tr><td>3</td><td>Produit / produit en panne</td><td class="val">Non fondée&nbsp;: mauvaise utilisation constatée, garantie annulée.</td></tr>
+        </table>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <p>Appel 1&nbsp;: client <strong>râleur</strong> → rester calme et poli, s'excuser. Appel 2&nbsp;: client <strong>sentimental</strong> → montrer de l'intérêt, prendre en compte sa fidélité.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <code>Retard = 12 h 30 − 10 h 00 = 2 h 30 &gt; 2 h → geste commercial dû</code>
+        <code>Geste commercial = 799 × 5 % = 799 × 0,05 = 39,95 €</code>
+        <p class="res">Bon d'achat de <strong>39,95 €</strong></p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">4</span>
+        <p>M. Petit&nbsp;: <strong>réparation sous garantie + prêt</strong> d'un téléviseur (3 semaines &gt; 15 jours), en soulignant sa fidélité. M. Garnier&nbsp;: <strong>explication</strong> du refus (rapport du technicien, notice)&nbsp;; la réparation peut lui être proposée sur devis.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">5</span>
+        <p style="font-style:italic;color:#24382c;font-size:13px;line-height:1.9;border:1px solid #c9e7d4;background:#fff;padding:14px;border-radius:5px;">
+          <strong>Objet&nbsp;:</strong> livraison de votre congélateur<br><br>
+          Bonjour Mme Roux,<br><br>
+          Nous vous présentons nos excuses pour le retard de livraison de votre congélateur&nbsp;: notre livreur, attendu entre 8 h et 10 h, n'est arrivé qu'à 12 h 30. Nous comprenons la gêne occasionnée.<br><br>
+          Conformément à nos engagements, nous vous offrons un bon d'achat de 39,95 €, soit 5 % du prix de votre congélateur. Il est joint à ce mail et utilisable dans tous nos magasins et sur notre site.<br><br>
+          Nous restons à votre disposition et vous remercions de votre confiance.<br><br>
+          Bien cordialement,<br>
+          [Prénom Nom], service clients Électro Plus
+        </p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 15 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 15</span>
+    <span class="badge badge-exam">★ sujet complet</span>
+    <span class="exo-titre-txt">Situation stressante, réclamation d'un client professionnel et bilan des réclamations</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Sarah, commerciale chez <strong>Bonbon d'Or</strong>, est en route pour un rendez-vous à 10 h quand M. Morel, gérant d'un supermarché, l'appelle à 9 h 40&nbsp;: «&nbsp;Il manque un carton de sucettes dans ma livraison et le kit de PLV promis pour l'opération Halloween n'est pas arrivé&nbsp;! Si ça continue, je change de fournisseur.&nbsp;» Après vérification, l'erreur vient de l'entrepôt de Bonbon d'Or. Sarah a rendez-vous avec M. Morel le lendemain à 9 h.<br><br>
+      La responsable commerciale lui transmet aussi le bilan des réclamations du mois&nbsp;:
+    </div>
+    <table class="tableau-donnees">
+      <tr><th>Motif</th><th>Nombre</th></tr>
+      <tr><td>Erreur ou oubli de livraison</td><td class="num">18</td></tr>
+      <tr><td>Produit abîmé</td><td class="num">12</td></tr>
+      <tr><td>Erreur de facturation</td><td class="num">9</td></tr>
+      <tr><td>Retard de livraison</td><td class="num">5</td></tr>
+      <tr><td>Autres</td><td class="num">4</td></tr>
+      <tr class="total-row"><td>Total</td><td>48</td></tr>
+    </table>
+    <div class="contexte">
+      Sur ces 48 réclamations, <strong>36</strong> étaient fondées. Le mois dernier, Bonbon d'Or avait reçu <strong>40</strong> réclamations. Ce mois-ci, <strong>1 600</strong> livraisons ont été effectuées&nbsp;; l'objectif est un taux de réclamations inférieur à <strong>2,5 %</strong> des livraisons.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Cet appel est-il une situation stressante, conflictuelle ou les deux&nbsp;? La réclamation est-elle fondée&nbsp;? Justifiez.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Rédigez la réponse orale de Sarah à M. Morel.</p></div>
+      <div class="question"><span class="q-num">3</span><p>Calculez la part des réclamations fondées, l'évolution du nombre de réclamations et le taux de réclamations par rapport aux livraisons.</p></div>
+      <div class="question"><span class="q-num">4</span><p>L'objectif est-il atteint&nbsp;? Proposez deux actions d'amélioration ciblées.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Ordre de grandeur&nbsp;:</strong> 36 sur 48, c'est trois quarts. 48 sur 1 600, c'est un peu plus de 1 sur 40, donc autour de 3 %.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <p><strong>Les deux.</strong> Stressante&nbsp;: l'appel risque de mettre Sarah en retard pour son rendez-vous de 10 h. Conflictuelle&nbsp;: le client est mécontent et menace de rompre la relation commerciale. Réclamation <strong>fondée</strong>&nbsp;: dysfonctionnement de l'entreprise (erreur de livraison et oubli de la PLV).</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <p class="res">«&nbsp;M. Morel, je vous présente mes excuses pour cette erreur de livraison et l'oubli du kit de PLV. Soyez rassuré&nbsp;: nous avons rendez-vous demain à 9 h, je vous apporterai personnellement le carton manquant et le kit pour votre opération Halloween.&nbsp;»</p>
+        <p class="conclu">Réponse courte (Sarah est attendue à 10 h), centrée sur les faits, avec une solution concrète et rapide.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <code>Part des réclamations fondées = 36 ÷ 48 × 100 = 75 %</code>
+        <code>Évolution = (48 − 40) ÷ 40 × 100 = + 20 %</code>
+        <code>Taux de réclamations = 48 ÷ 1 600 × 100 = 3 %</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">4</span>
+        <p class="res">Objectif non atteint&nbsp;: 3 % &gt; 2,5 %.</p>
+        <p>Le premier motif est l'erreur ou l'oubli de livraison (18 sur 48, soit 37,5 %), suivi des produits abîmés (12). Actions possibles&nbsp;:<br>
+        • mettre en place un contrôle des colis et de la PLV avant expédition (liste de vérification à l'entrepôt)&nbsp;;<br>
+        • revoir le conditionnement pour réduire les produits abîmés&nbsp;;<br>
+        • transmettre ces statistiques à l'entrepôt et suivre le taux chaque mois.</p>
+        <p class="conclu">Les réclamations sont une source d'information&nbsp;: bien analysées, elles permettent d'améliorer le service et de fidéliser les clients.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+</main>
+
+<footer class="site-footer">
+  Bac pro MCV – bloc 2 «&nbsp;Suivre les ventes&nbsp;» – traiter les retours et les réclamations du client &nbsp;|&nbsp; 15 exercices progressifs
+</footer>
+
+<script>
+function toggleCorr(btn) {
+  const corr = btn.nextElementSibling;
+  const isVisible = corr.classList.contains('visible');
+  corr.classList.toggle('visible', !isVisible);
+  btn.textContent = isVisible ? '✅ Voir la correction' : '🔒 Masquer la correction';
+}
+</script>
+
+</body>
+</html>
